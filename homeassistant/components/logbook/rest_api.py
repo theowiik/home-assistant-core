@@ -66,6 +66,8 @@ class LogbookView(HomeAssistantView):
         else:
             period = int(period_str)
 
+        entity_ids = None
+
         if entity_ids_str := request.query.get("entity"):
             try:
                 entity_ids = cv.entity_ids(entity_ids_str)
@@ -74,9 +76,6 @@ class LogbookView(HomeAssistantView):
                     f"Invalid entity id(s) encountered: {entity_ids_str}. "
                     "Format should be <domain>.<object_id>"
                 ) from vol.Invalid
-        else:
-            entity_ids = None
-
         if (end_time_str := request.query.get("end_time")) is None:
             start_day = dt_util.as_utc(datetime_dt) - timedelta(days=period - 1)
             end_day = start_day + timedelta(days=period)
