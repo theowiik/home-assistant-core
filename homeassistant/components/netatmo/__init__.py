@@ -243,6 +243,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             )
 
     async def manage_cloudhook(state: cloud.CloudConnectionState) -> None:
+        """Manage cloudhook by checking the cloud connection state."""
         if state is cloud.CloudConnectionState.CLOUD_CONNECTED:
             await register_webhook(None)
 
