@@ -200,15 +200,14 @@ class ShellyConfigFlow(ConfigFlow, domain=DOMAIN):
         else:
             user_input = {}
 
-        if get_info_gen(self.info) == 2:
-            schema = {
-                vol.Required(CONF_PASSWORD, default=user_input.get(CONF_PASSWORD)): str,
-            }
-        else:
-            schema = {
-                vol.Required(CONF_USERNAME, default=user_input.get(CONF_USERNAME)): str,
-                vol.Required(CONF_PASSWORD, default=user_input.get(CONF_PASSWORD)): str,
-            }
+        schema = {
+            vol.Required(CONF_PASSWORD, default=user_input.get(CONF_PASSWORD)): str,
+        }
+
+        if get_info_gen(self.info) != 2:
+            schema[
+                vol.Required(CONF_USERNAME, default=user_input.get(CONF_USERNAME))
+            ] = str
 
         return self.async_show_form(
             step_id="credentials", data_schema=vol.Schema(schema), errors=errors
