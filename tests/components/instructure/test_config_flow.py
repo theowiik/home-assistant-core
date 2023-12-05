@@ -9,7 +9,22 @@ from homeassistant.components.instructure.const import DOMAIN
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResultType
 
+from tests.test_util.aiohttp import AiohttpClientMocker
+
 pytestmark = pytest.mark.usefixtures("mock_setup_entry")
+
+async def test_sucessful_flow(
+    hass: HomeAssistant,
+    aiouser_mock: AiohttpClientMocker
+) -> None:
+    """Test the successful config flow from start to finish."""
+    # 1 - mock request to endpoints involved in config flow
+    #     async_make_get_request("/courses")
+    #     check canvas_api line 53
+    # 🥱🥱🥱🥱🥱🥱🥱🥱🥱困了，鲁班大王明天再写
+    # 2 - initialize the flow with source "user"
+    # 3 - test step "courses"
+
 
 
 async def test_form(hass: HomeAssistant, mock_setup_entry: AsyncMock) -> None:
