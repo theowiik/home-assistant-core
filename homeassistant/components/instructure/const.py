@@ -2,6 +2,10 @@
 
 DOMAIN = "instructure"
 
+HOST_PREFIX = "host_prefix"
+ACCESS_TOKEN = "access_token"
+CONF_COURSES = "courses"
+
 # Save data
 ANNOUNCEMENTS_KEY: str = "announcements"
 ASSIGNMENTS_KEY: str = "assignments"
