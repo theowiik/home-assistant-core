@@ -85,7 +85,7 @@ async def test_sucessful_flow(
         67890: "Test Course 2",
     }
 
-async def test_flow_with_cannot_connect_failure(
+async def test_flow_with_invalid_auth_failure(
     hass: HomeAssistant,
     httpx_mock: HTTPXMock
 ) -> None:
