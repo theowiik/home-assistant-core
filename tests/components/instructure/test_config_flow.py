@@ -9,9 +9,7 @@ from homeassistant.components.instructure.const import DOMAIN, HOST_PREFIX, ACCE
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResultType
 
-from tests.test_util.aiohttp import AiohttpClientMocker
-
-from pytest_httpx import HTTPXMock # add aioresponse to requirements!
+from pytest_httpx import HTTPXMock # add HTTPXMock to requirements!
 
 TEST_ACCESS_TOKEN = "test_access_token"
 TEST_HOST_PREFIX = "chalmers"

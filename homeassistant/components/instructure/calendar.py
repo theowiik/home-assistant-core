@@ -37,6 +37,12 @@ class CanvasCalendarEntity(CalendarEntity):
 
         if not assignments:
             return None
+        
+        for assignment in assignments:
+            if "name" not in assignment or assignment["name"] == "":
+                assignment["name"] = "Unnamed Assignment"
+            if "html_url" not in assignment or assignment["html_url"] == "":
+                assignment["html_url"] = "Link not found"
 
         next_assignment = min(
             assignments,
@@ -62,6 +68,13 @@ class CanvasCalendarEntity(CalendarEntity):
     ) -> list[CalendarEvent]:
         """Return calendar events within a datetime range."""
         assignments = self.coordinator.data[ASSIGNMENTS_KEY].values()
+        
+        for assignment in assignments:
+            if "name" not in assignment or assignment["name"] == "":
+                assignment["name"] = "Unnamed Assignment"
+            if "html_url" not in assignment or assignment["html_url"] == "":
+                assignment["html_url"] = "Link not found"
+
         filtered_assignments = [
             item
             for item in assignments
