@@ -1,6 +1,4 @@
 """Test the canvas config flow."""
-from unittest.mock import AsyncMock, patch
-
 import pytest
 
 from homeassistant import config_entries
@@ -9,7 +7,7 @@ from homeassistant.components.instructure.const import DOMAIN, HOST_PREFIX, ACCE
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResultType
 
-from pytest_httpx import HTTPXMock # add HTTPXMock to requirements!
+from pytest_httpx import HTTPXMock
 
 TEST_ACCESS_TOKEN = "test_access_token"
 TEST_HOST_PREFIX = "chalmers"

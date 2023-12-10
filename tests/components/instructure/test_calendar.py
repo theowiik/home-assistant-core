@@ -9,9 +9,9 @@ from homeassistant.components.instructure.const import DOMAIN, HOST_PREFIX, ACCE
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_registry as er
 
-from tests.common import MockConfigEntry, MockEntityPlatform, MockPlatform, MockEntity
+from tests.common import MockConfigEntry
 
-async def test_async_setup_entry(hass: HomeAssistant, ) -> None:
+async def test_async_setup_entry(hass: HomeAssistant) -> None:
     """Test async_setup_entry."""
     assert hass.state is CoreState.running
     entry = MockConfigEntry(
