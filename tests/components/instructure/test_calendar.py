@@ -3,32 +3,43 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from homeassistant.components.instructure.config_flow import get_courses_names
-from homeassistant.components.instructure.calendar import CanvasCalendarEntity
+from homeassistant.components.instructure.calendar import CanvasCalendarEntity, async_setup_entry
 
 from homeassistant.components.instructure.const import DOMAIN, HOST_PREFIX, ACCESS_TOKEN, CONF_COURSES, ASSIGNMENTS_KEY
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers import entity_registry as er
 
-from pytest_httpx import HTTPXMock # add HTTPXMock to requirements!
-from tests.common import MockConfigEntry, patch
+from tests.common import MockConfigEntry, MockEntityPlatform, MockPlatform, MockEntity
 
-# async def test_async_setup_entry(hass: HomeAssistant) -> None:
-#     """Test async_setup_entry."""
-#     assert hass.state is CoreState.running
-#     entry = MockConfigEntry(
-#         domain=DOMAIN,
-#         data={
-#             HOST_PREFIX: "chalmers",
-#             ACCESS_TOKEN: "test_access_token",
-#         },
-#         options={
-#             CONF_COURSES: {
-#                 "12345": "Test Course 1",
-#                 "67890": "Test Course 2"
-#             }
-#         },
-#         title="Canvas"
-#     )
+async def test_async_setup_entry(hass: HomeAssistant, ) -> None:
+    """Test async_setup_entry."""
+    assert hass.state is CoreState.running
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        data={
+            HOST_PREFIX: "chalmers",
+            ACCESS_TOKEN: "test_access_token",
+        },
+        options={
+            CONF_COURSES: {
+                "12345": "Test Course 1",
+                "67890": "Test Course 2"
+            }
+        },
+        title="Canvas"
+    )
+    entry.add_to_hass(hass)
+    
+    hass.data.setdefault(DOMAIN, {})
+    hass.data[DOMAIN].setdefault(entry.entry_id, {})
+    hass.data[DOMAIN][entry.entry_id]["coordinator"] = MagicMock()
+
+    assert DOMAIN in hass.data
+    
+    fake_async_add_entities = MagicMock()
+    await async_setup_entry(hass, entry, fake_async_add_entities)
+    await hass.async_block_till_done()
+    assert fake_async_add_entities.called == True
 
 @pytest.mark.parametrize(
     "assignment_data, start, end, output_length",
