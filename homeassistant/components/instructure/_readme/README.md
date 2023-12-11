@@ -1,4 +1,5 @@
 ---
+meta_note: This should be in the home assistant documentation repository, but we will not merge it so it will be here as for now.
 title: Canvas
 description: Instructions on how to integrate the Canvas integration into Home Assistant.
 ha_category:
@@ -21,32 +22,16 @@ ha_codeowners:
 ha_integration_type: integration
 ---
 
-<!-- Some stuff to include :salute:
-
-- What the integration is and why someone would use it
-    - Screenshots and maybe quick overview of features
-- Add instructions/explanation for:
-    - Config flow
-        - Canvas host + token
-        - Rooms
-    - Adding the cards to the dashboard
-        - "Standard" sensors
-        - Calendar
-        - Quick links
-            - yaml file (manually or in frontend)
--->
-
 The Canvas integrations allows you to get an overview of your courses, including assignments, announcements, grades, and more.
 
 - [Configuration](#configuration)
   - [Personal Access Token](#personal-access-token)
-- [Adding the services](#adding-the-services)
+- [Adding the Services](#adding-the-services)
   - [Sensors](#sensors)
   - [Assignments Calendar](#assignments-calendar)
   - [Quick Links](#quick-links)
 
-<!-- Overview image -->
-![Cat](http://placekitten.com/g/300/100)
+<img src="dashboard.png" style="max-width: 700px; filter: drop-shadow(0px 5px 7px #cccccc); border-radius: 4px" alt="Screenshot of a Home Assistant dashboard with the Canvas integration.]"/>
 
 ## Configuration
 
@@ -60,11 +45,11 @@ The host should be without the domain extension, e.g **`chalmers`** and not **`c
 
 ### Personal Access Token
 
-Your personal access token can be generated in **Canvas > Account > Settings > Approved integrations** by clicking the **⊕ New access token** `https://{host}.instructure.com/profile/settings`
+Your personal access token can be generated in **Canvas > Account > Settings > Approved integrations** by clicking the **⊕ New access token**.
 
-## Adding the services
+ `https://{host}.instructure.com/profile/settings`
 
-![Screenshot of a Home Assistant dashboard with the Canvas integration.](dashboard.png)
+## Adding the Services
 
 ### Sensors
 
@@ -76,6 +61,12 @@ To add the assignments calendar, go to your dashboard, click on the three dots i
 
 ### Quick Links
 
-idk, yaml or smth
+To add quick links to your dashboard, create a `canvas.yaml` file in your Home Assistant config/ folder. Example quick link configuration:
 
-<!-- image of a cat below -->
+```yaml
+quick_links:
+  - name:  'Course Schedule'
+    url: 'https://chalmers.instructure.com/courses/25271/pages/course-schedule?module_item_id=386861'
+  - name:  'Link 2'
+    url: '{Link 2}'
+```
