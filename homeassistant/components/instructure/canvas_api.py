@@ -191,22 +191,39 @@ class CanvasAPI:
         dict: The response from the Canvas API.
         """
         submissions = {}
-        # Grades entity is right now meaningless because we dont get assignment description neither course name etc.
-        # Check GRADES_KEY: CanvasSensorEntityDescription(.... (name_fn and value_fn))
         for course_id in course_ids:
             response = await self.async_make_get_request(
                 f"/courses/{course_id}/students/submissions",
                 {"per_page": "50"},
             )
             course_submissions = json.loads(response.content.decode("utf-8"))
+            course_info_response = await self.async_make_get_request(
+                f"/courses/{course_id}", {}
+            )
+            course_info = json.loads(course_info_response.content.decode("utf-8"))
+            course_name = course_info.get("name", "Unknown Course")
             for submission in course_submissions:
                 if "graded_at" in submission and submission["graded_at"] is not None:
                     graded_at = datetime.strptime(
                         submission["graded_at"], ISO_DATETIME_FORMAT
                     )
                     past_one_month = datetime.utcnow() - timedelta(days=30)
+                    # get assignment name
+                    response = await self.async_make_get_request(
+                        f"/courses/{course_id}/assignments/{submission['assignment_id']}",
+                        {}
+                    )
+                    assignment_info = json.loads(response.content.decode("utf-8"))
+                    assignment_name = assignment_info.get("name", "Unnamed Assignment")
                     if graded_at >= past_one_month:
-                        submissions[f"submission-{submission['id']}"] = submission
+                        submission_details = {
+                            "course_name": course_name,
+                            "assignment_name": assignment_name,
+                            "score": submission.get("score", "Not Graded"),
+                        }
+                        submissions[
+                            f"submission-{submission['id']}"
+                        ] = submission_details
 
         if len(submissions) != 0:
             return submissions
