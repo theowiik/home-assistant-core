@@ -3,7 +3,6 @@ from datetime import UTC, datetime, timedelta
 
 from homeassistant.components.instructure.canvas_api import ISO_DATETIME_FORMAT
 
-# Save data
 ANNOUNCEMENTS_KEY: str = "announcements"
 ASSIGNMENTS_KEY: str = "assignments"
 CONVERSATIONS_KEY: str = "conversations"
