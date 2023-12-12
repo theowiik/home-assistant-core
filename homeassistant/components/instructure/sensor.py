@@ -109,8 +109,8 @@ SENSOR_DESCRIPTIONS: {str: CanvasSensorEntityDescription} = {
         translation_key=GRADES_KEY,
         icon="mdi:star",
         avabl_fn=lambda data: data is not None,
-        name_fn=lambda data: data["assignment_id"] if data else "There are no graded assignments",
-        value_fn=lambda data: data["grade"] if data else "",
+        name_fn=lambda data: data["assignment_name"] if data else "There are no graded assignments",
+        value_fn=lambda data: data["score"] if data else "",
         attr_fn=lambda data, courses: {
             "Course Name": data["course_name"]
         }
@@ -177,12 +177,12 @@ class CanvasSensorEntity(SensorEntity):
     @name.setter
     def name(self, new_value):
         self._name = new_value
-    
+
     @property
     def available(self) -> bool:
         """Return True if entity is available."""
         return self._get_available()
-    
+
     @available.setter
     def available(self, new_value):
         self._available = new_value
@@ -191,7 +191,7 @@ class CanvasSensorEntity(SensorEntity):
     def native_value(self):
         """Return the due time."""
         return self._get_native_value()
-    
+
     @native_value.setter
     def native_value(self, new_value):
         self._native_value = new_value
@@ -207,14 +207,14 @@ class CanvasSensorEntity(SensorEntity):
 
     def get_data(self):
         return self.coordinator.data[self.entity_description.key][self._attr_unique_id]
-    
+
     def _get_name(self) -> str | None:
         """Return the name of the sensor."""
         if not self.available:
             return None
 
         return f"{self.entity_description.name_fn(self.get_data())}"
-    
+
     def _get_available(self) -> bool:
         """Return True if entity is available."""
         return (
@@ -229,13 +229,13 @@ class CanvasSensorEntity(SensorEntity):
             return None
 
         return self.entity_description.value_fn(self.get_data())
-    
+
     def _get_extra_state_attributes(self) -> Mapping[str, Any] | None:
         """Return the extra state attributes."""
         return self.entity_description.attr_fn(
             self.get_data(), self.coordinator.selected_courses
         )
-    
+
     async def async_update(self) -> None:
         """Update the sensor"""
         self.name = self._get_name()
@@ -275,17 +275,17 @@ async def async_setup_entry(
         existing_sensor_ids = {entity_id for entity_id, _ in existing_sensors.items()}
 
         all_new_entity_ids = set()
-        
+
         # Add entities
         for data_type, entity_data in new_data.items():
             all_new_entity_ids.update([get_sensor_entity_id(registry, unique_id) for unique_id in entity_data.keys()])
             add_new_entities(data_type, entity_data.keys())
-    
+
         # Remove entities
         to_remove = existing_sensor_ids - all_new_entity_ids
         for entity_id in to_remove:
             registry.async_remove(entity_id)
-        
+
 
     coordinator.update_entities = update_entities
     await coordinator.async_refresh()
