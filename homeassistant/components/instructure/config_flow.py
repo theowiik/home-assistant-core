@@ -13,12 +13,10 @@ from homeassistant.exceptions import HomeAssistantError
 import homeassistant.helpers.config_validation as cv
 
 from .canvas_api import CanvasAPI
-from .const import DOMAIN
+from .const import DOMAIN, HOST_PREFIX, ACCESS_TOKEN, CONF_COURSES
 
 _LOGGER = logging.getLogger(__name__)
-HOST_PREFIX = "host_prefix"  # consider adding a CONF prefix
-ACCESS_TOKEN = "access_token"
-CONF_COURSES = "courses"
+
 
 # TODO adjust the data schema to the data that you need
 STEP_USER_DATA_SCHEMA = vol.Schema(
