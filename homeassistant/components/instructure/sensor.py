@@ -95,6 +95,7 @@ SENSOR_DESCRIPTIONS: {str: CanvasSensorEntityDescription} = {
         if data
         else "",
         attr_fn=lambda data, courses: {
+            "Type": "conversation",
             "Course": data["context_name"],
             "Initial Sender": data["participants"][0]["name"],
             "Last Message": data["last_message"],
