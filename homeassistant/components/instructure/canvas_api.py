@@ -155,14 +155,14 @@ class CanvasAPI:
             "/conversations", {"per_page": "50"}
         )
         conversations = json.loads(response_unread.content.decode("utf-8"))
-        
+
         # get unread and read messages
         unread_conversations = sorted(
             [conv for conv in conversations if conv["workflow_state"] == "unread"],
             key=lambda x: datetime.strptime(x["last_message_at"], ISO_DATETIME_FORMAT),
             reverse=True,
         )
-        
+
         read_conversations = []
         if len(unread_conversations) < 5:
             show_read = 5 - len(unread_conversations)
@@ -174,7 +174,7 @@ class CanvasAPI:
             # pick the latest 5 read messages
             if len(read_conversations) >= show_read:
                 read_conversations = read_conversations[:show_read]
-        
+
         merged_conversations = unread_conversations + read_conversations
         if len(merged_conversations) != 0:
             return {
@@ -215,11 +215,19 @@ class CanvasAPI:
                     )
                     assignment_info = json.loads(response.content.decode("utf-8"))
                     assignment_name = assignment_info.get("name", "Unnamed Assignment")
+
+                    # Get the score and round it off, otherwise get "Not Graded"
+                    if "score" in submission:
+                        score_value = round(submission["score"], 2)
+                        score_str = str(score_value)
+                    else:
+                        score_str = "Not graded"
+
                     if graded_at >= past_one_month:
                         submission_details = {
                             "course_name": course_name,
                             "assignment_name": assignment_name,
-                            "score": submission.get("score", "Not Graded"),
+                            "score": score_str,
                         }
                         submissions[
                             f"submission-{submission['id']}"
