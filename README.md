@@ -13,12 +13,12 @@ ha_domain: instructure
 ha_platforms:
   - sensor
 ha_codeowners:
-  - '@theowiik',
-  - '@elias-carlson',
-  - '@erikwessman',
-  - '@Caodongying',
-  - '@F-MertGultekin',
-  - '@Lemi007',
+  - '@theowiik'
+  - '@elias-carlson'
+  - '@erikwessman'
+  - '@Caodongying'
+  - '@F-MertGultekin'
+  - '@Lemi007'
 ha_integration_type: integration
 ---
 
@@ -70,3 +70,9 @@ quick_links:
   - name:  'Link 2'
     url: '{Link 2}'
 ```
+
+### Custom Card for Inbox Sensor
+
+If you wish to enable filtering of Inbox messages (by All, Read, or Unread), we have a custom card which you can add to your Home Assistant configuration.
+
+Instructions for adding a custom card can be found in the [Home Assistant Frontend Docs](https://developers.home-assistant.io/docs/frontend/custom-ui/custom-card/) and the code for our card can be found here: [erikwessman/ha-inbox-card](https://github.com/erikwessman/ha-inbox-card).
