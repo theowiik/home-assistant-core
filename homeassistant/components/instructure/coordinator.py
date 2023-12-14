@@ -1,15 +1,11 @@
-import os
-from datetime import datetime, timedelta
+from datetime import timedelta
 import logging
-from typing import Any
 import yaml
 
 import async_timeout
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
-
-from datetime import datetime
 
 from .canvas_api import CanvasAPI
 from .const import (
